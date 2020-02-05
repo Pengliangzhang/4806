@@ -64,11 +64,4 @@ public class WebController {
         this.bookRepository.save(this.book);
         return "DeletedPage";
     }
-
-    @GetMapping("/error")
-    public String error() {
-        return "Error handling lalala";
-    }
-
-
 }
