@@ -65,7 +65,7 @@ public class WebController {
 
     @GetMapping("/error")
     public String error() {
-        return "Error handling";
+        return "Error handling lalala";
     }
 
 
