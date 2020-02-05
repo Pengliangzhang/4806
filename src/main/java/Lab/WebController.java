@@ -64,9 +64,8 @@ public class WebController {
     }
 
     @GetMapping("/error")
-    public String error(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-        model.addAttribute("name", name);
-        return "homePage"; //view
+    public String error() {
+        return "Error handling";
     }
 
 
