@@ -22,6 +22,12 @@ public class WebController {
         return "homePage"; //view
     }
 
+    @GetMapping("/")
+    public String index(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "homePage"; //view
+    }
+
     @GetMapping("/createaddressbook")
     public String createBook (Model model, AddressBookRepository repository){
         this.book = new AddressBook(1);
