@@ -3,9 +3,7 @@ package Lab;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/")
@@ -69,5 +67,17 @@ public class WebController {
         this.book.removeBuddy(name);
         this.bookRepository.save(this.book);
         return "DeletedPage";
+    }
+
+    @GetMapping("/greeting")
+    public String greetingForm(Model model) {
+        model.addAttribute("greeting", new BuddyInfo());
+        return "BuddyFORM";
+    }
+
+
+    @PostMapping("/greeting")
+    public String greetingSubmit(@ModelAttribute BuddyInfo buddyInfo) {
+        return "result";
     }
 }
