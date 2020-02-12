@@ -27,6 +27,7 @@ public class AddressBook implements Serializable {
     public void addBuddyInfo (BuddyInfo buddy) {
         this.buddyList.add(buddy);
     }
+
     public void addBuddyInfo (String name, int phoneNum) {
         BuddyInfo buddy = new BuddyInfo(name, phoneNum);
         this.buddyList.add(buddy);
@@ -55,6 +56,10 @@ public class AddressBook implements Serializable {
                 this.buddyList.remove(buddy);
             }
         }
+    }
+
+    public List<BuddyInfo> getBuddyList(){
+        return buddyList;
     }
 
     public void setId (Integer index) {

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.*;
+import java.util.List;
+
 @Controller
 @RequestMapping("/")
 public class WebController {
@@ -13,7 +16,7 @@ public class WebController {
     private AddressBookRepository bookRepository;
     @Autowired
     private BuddyInfoRepository buddyRepository;
-    private AddressBook book;
+    private AddressBook book = new AddressBook(1);
     @GetMapping("/home")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
@@ -58,7 +61,8 @@ public class WebController {
     @GetMapping ("/getall")
     public String getBuddy (Model model){
         AddressBook book1 = this.bookRepository.findById(1);
-        model.addAttribute("buddyInfo", book1.toString());
+        System.out.println("Book ........................................................."+ book1);
+//        model.addAttribute("buddyInfo", book1.toString());
         return "BuddyResult";
     }
 
@@ -71,13 +75,50 @@ public class WebController {
 
     @GetMapping("/greeting")
     public String greetingForm(Model model) {
-        model.addAttribute("greeting", new BuddyInfo());
-        return "BuddyFORM";
+
+        model.addAttribute("buddyObj", new BuddyInfo());
+        return "buddySubmit";
     }
 
+    @GetMapping("/hello")
+    public String hello(@ModelAttribute BuddyInfo buddyInfo, Model model) {
+//        model.addAttribute("buddyObj", new BuddyInfo());
 
-    @PostMapping("/greeting")
-    public String greetingSubmit(@ModelAttribute BuddyInfo buddyInfo) {
-        return "result";
+        model.addAttribute("buddyObj", new BuddyInfo());
+
+//        this.book.addBuddyInfo(buddyInfo);
+//        buddyRepository.save(buddyInfo);
+//        bookRepository.save(this.book);
+
+
+        return "hello";
+    }
+
+    @PostMapping(value = "/json", produces = "application/json")
+    @ResponseBody
+    public List<BuddyInfo> returnJson(@ModelAttribute BuddyInfo buddyInfo, Model model) {
+        System.out.println("New request for JSON");
+//        this.book.addBuddyInfo(buddyInfo);
+//        buddyRepository.save(buddyInfo);
+//        bookRepository.save(this.book);
+        AddressBook book1 = this.bookRepository.findById(1);
+//        System.out.println("Book: " + book1);
+
+        List<BuddyInfo> list = book.getBuddyList();
+        for(BuddyInfo buddy : list){
+            System.out.println(buddy);
+        }
+
+        return list;
+    }
+
+    @PostMapping("/hello")
+    public void greetingSubmit(@ModelAttribute BuddyInfo buddyInfo, Model model) {
+        model.addAttribute("buddyObj", buddyInfo);
+        this.book.addBuddyInfo(buddyInfo);
+        buddyRepository.save(buddyInfo);
+        bookRepository.save(this.book);
+
+//        return "hello";
     }
 }
